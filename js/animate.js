@@ -27,9 +27,6 @@
  d---duration（持续时间）  5000
  Tween.Quad.easeInt()
  运算的结果就是当前的运动路程。
- 整理翻译:Code宝宝
- 翻译或解释不对的地方希望各位修正、批评。
- 50
  Tween.Linear
  Tween.Quad.easeIn
  */
