@@ -2,7 +2,7 @@
 
 静态项目展示内容：
 
-![](C:\Users\HASEE\Desktop\素材\tianmao.gif)
+![](./imgs/tianmao.gif)
 
 页面结构：
 
