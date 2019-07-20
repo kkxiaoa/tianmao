@@ -255,12 +255,11 @@ window.onload=function(){
 	}
 	
 	//轮播
-	lunbo(0);
-	lunbo(1);
-	lunbo(2);
-	lunbo(3);
-	lunbo(4);
-	lunbo(5);
-	
+	swiper(0);
+	swiper(1);
+	swiper(2);
+	swiper(3);
+	swiper(4);
+	swiper(5);
 	
 }

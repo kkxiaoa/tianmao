@@ -1,10 +1,13 @@
-//1.兼容函数 //功能： 
-//参数说明:
 
-function getClass(classname,obj){
+/**
+ * @param  {string} classname //"one two first"  "box"
+ * @param  {Object} obj
+ * 
+ */
+function getClass(classname, obj){
   if(document.getElementsByClassName){
      return document.getElementsByClassName(classname);
-  }else{//IE//"one two first"["one","two","first"]  "one" 3
+  }else{
     var all=document.getElementsByTagName("*");//集合[<div class="one two fisrt" id=""></div>,<p>]
     var arr=[];
     for(var i=0;i<all.length;i++){
@@ -14,24 +17,19 @@ function getClass(classname,obj){
     }
     return arr;
   }
-}//"one two first"  "box"
-
+}
 function checkRel(str,val){
-  var arr=str.split(" ");
+  var arr = str.split(" ");
   for(var i in arr){
-    if(arr[i]==val){
+    if(arr[i] == val){
       return true;
     }
   }
   return false;
 }
-/****************************************/
-
-
-
 
 /*
-  2.可以获取与设置纯文本的兼容函数
+  可以获取与设置纯文本的兼容函数
      obj:哪个对象用这个方法
      val:接收第二个实参，表示设置一个文本
 */
@@ -52,7 +50,7 @@ function getText(obj,val){
 }
 
 /*********************************/
-//3.获取样式
+//获取样式
 //obj:哪个对象   attr:哪个属性
 //对象.属性    对象["属性"]
 function getStyle(obj,attr){
@@ -65,7 +63,7 @@ function getStyle(obj,attr){
 
 
 /*********************************/
-//4.获取元素的函数$()
+//获取元素的函数$()
 /*
     $(".box");  类名
     $("#fisrt"); ID名
@@ -93,7 +91,7 @@ function $(select,obj){
 
 /***********************************/
 /*
-5.getChilds(parent,type);
+getChilds(parent,type);
  "a": 获取元素子节点的兼容函数
  "b": 获取元素+文本节点
 
@@ -118,21 +116,21 @@ function getChilds(parent,type){
   return arr;
 }
 
-//6.获得第一个子节点
+//获得第一个子节点
 function getFirst(parent){
   return getChilds(parent)[0];
 }
 
-//7.获得最后一个子节点
+//获得最后一个子节点
 function getLast(parent){
   return getChilds(parent)[getChilds(parent).length-1];
 }
-//8.获得一个指定子节点
+//获得一个指定子节点
 function getNum(parent,num){
   return getChilds(parent)[num];
 }
 
-//9.获得下一个兄弟节点
+//获得下一个兄弟节点
 function getNext(obj){
   var next=obj.nextSibling;//null
   while(next.nodeType==3||next.nodeType==8){ 
@@ -144,7 +142,7 @@ function getNext(obj){
   return next;
 }
 
-//10.获得上一个兄弟节点
+//获得上一个兄弟节点
 function getUp(obj){
   var up=obj.previousSibling;//null
   if(up==null){
@@ -160,8 +158,8 @@ function getUp(obj){
 }
 
 
-//11.插入到某个对象之后
-Object.prototype.insertAfter=function(obj1,obj2){
+//插入到某个对象之后
+Object.prototype.insertAfter= function(obj1,obj2){
   var newobj=getNext(obj2);
   if(newobj){
     this.insertBefore(obj1,newobj);
@@ -170,16 +168,129 @@ Object.prototype.insertAfter=function(obj1,obj2){
   }
 }
 
-
-//12.获取滚动条走了的距离
-function getScrollT(){
+//获取滚动条走了的距离
+function getScrollT () {
   var obj=document.documentElement.scrollTop?document.documentElement:document.body;
   var scrollT=obj.scrollTop;
   return scrollT;
 }
+/**
+ * @param  {(string|number)} number
+ */
+let toThousands = (number) => {
+  var num = Number(number || 0).toFixed(2).toString(), tail = num.slice(-3),
+  realNumber = num.substring(0, num.indexOf('.')), result = ''
+  while (realNumber.length > 3) {
+    result = ',' + realNumber.slice(-3) + result
+    realNumber = realNumber.slice(0, realNumber.length - 3)
+  }
+  if (realNumber) { result = realNumber + result }
+  return result + tail
+}
+/**
+ * 判断浏览器类型
+ */
+let checkBrowser = () => {
+  let ua = navigator.userAgent.toLocaleLowerCase()
+  let browserType = null
+  let _mime = function (option, value) {
+    var mimeTypes = navigator.mimeTypes
+    for (var mt in mimeTypes) {
+    if (mimeTypes[mt][option] == value) {
+        return true
+      }
+    }
+    return false
+  }
+  if (ua.match(/edge/) != null || ua.match(/NET/) != null) {
+    browserType = "Edge"
+  } else if (ua.match(/msie/) != null || ua.match(/trident/) != null) {
+    browserType = "IE"
+    browserVersion = ua.match(/msie ([\d.]+)/) != null ? ua.match(/msie ([\d.]+)/)[1] : ua.match(/rv:([\d.]+)/)[1]
+  } else if (ua.match(/firefox/) != null) {
+    browserType = "火狐"
+  } else if (ua.match(/ubrowser/) != null) {
+    browserType = "UC"
+  } else if (ua.match(/opera/) != null) {
+    browserType = "欧朋"
+  } else if (ua.match(/bidubrowser/) != null) {
+    browserType = "百度"  
+  } else if (ua.match(/metasr/) != null) {
+    browserType = "搜狗"  
+  } else if (ua.match(/tencenttraveler/) != null || ua.match(/qqbrowse/) != null) {
+    browserType = "QQ"
+  } else if (ua.match(/maxthon/) != null) {
+    browserType = "遨游"
+  } else if (ua.match(/chrome/) != null) {
+    var is360 = _mime("type", "application/vnd.chromium.remoting-viewer")
+    if (is360) {               
+      browserType = '360'  
+    } else {  
+      browserType = "谷歌" 
+    }      
+  } else if (ua.indexOf("Safari") > -1 && ua.indexOf("Chrome") < 1) {
+    browserType = "Safari"
+  }
+  return browserType
+}
+/**
+ * 绑定事件
+ * @param  {HTMLElement} dom //dom对象
+ * @param  {string} type // click、input、hover...
+ * @param  {} fn callback
+ */
+let addEvent = (dom, type, fn) => {
+  if (dom.addEventListener) {
+    dom.addEventListener(type, fn, false)
+  } else if (dom.attachEvent) {
+    dom.attachEvent('on' + type, fn)
+  } else {
+    dom['on' + type] = fn
+  }
+}
+/**
+ * 移除事件
+ * @param  {HTMLElement} dom //dom对象
+ * @param  {string} type // click、input、hover...
+ * @param  {} fn callback
+ */
+let removeEvent = (dom, type, fn) => {
+  if (dom.removeEventListener) {
+    dom.removeEventListener(type, fn, false) 
+  } else if (target.detachEvent) {
+    dom.detachEvent("on" + type, fn)
+  } else {
+    dom["on" + type] = null 
+  }
+}
+/**
+ * 获取事件
+ */
+let getEvent = event => event || window.event
+
+/**
+ * 获取事件
+ */
+let getTarget = (event) => {
+  var event = getEvent(event)
+  return event.target || event.srcElement
+}
+
+
+/**
+ * 阻止默认事件
+ */
+let preventDefault = event => {
+  var event = getEvent(event)
+  if (event.preventDefault) {
+    event.preventDefault()
+  } else {
+    event.returnValue = false
+  }
+}
 
 //轮播
-function lunbo(a){
+function swiper (a) {
   var t=setInterval(moveleft,2000);
     function moveleft(){
       var father=$(".imgs")[a];
